@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Workout"
+        android:textSize="30dp"
+        android:id="@+id/textview_workouts_name"
+        android:background="#2a6fe5"
+        android:textColor="#e0e1e4"
+        android:textStyle="italic"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Workout Progress"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+    <ExpandableListView
+        android:id="@android:id/list"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:divider="@android:color/transparent"
+        android:groupIndicator="@null" />
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/delete_workout_button_yes"
+        android:title="Delete"/>
+    <item
+        android:id="@+id/edit_workout_button"
+        android:title="Edit Name"/>
+
+
+</menu>

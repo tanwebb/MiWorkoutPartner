@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">WorkoutDatabasePractice</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_homescreen">Homescreen</string>
+    <string name="workouts_button">Workouts</string>
+    <string name="maxes_button">One Rep Maxes</string>
+    <string name="EXTRA_WORKOUTID">Extra Workout ID</string>
+    <string name="EXTRA_WORKOUTNAME">Extra Workout Name</string>
+    <string name="EXTRA_WORKOUTID_ELV">Extra Workout ID Elv</string>
+    <string name="EXTRA_WORKOUTNAME_ELV">Extra Workout Name Elv</string>
+    <string name="EXTRA_EXERCISEID">Extra Exercise ID</string>
+    <string name="EXTRA_EXERCISENAME">Extra Exercise Name</string>
+    <string name="title_activity_exercise">ExerciseActivity</string>
+    <string name="title_activity_set">SetActivity</string>
+    <string name="exercises_underline"><u>Exercises:</u></string>
+    <string name="sets_underline"><u>Sets:</u></string>
+    <string name="title_activity_main_activity_elv">MainActivity_elv</string>
+    <string name="title_activity_view_workouts">ViewWorkouts</string>
+    <string name="title_activity_max">MaxActivity</string>
+
+
+
+</resources>

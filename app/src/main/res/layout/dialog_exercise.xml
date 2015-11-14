@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Enter Exercise Name"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:id="@+id/dialog_exercise_textview" />
+
+    <EditText
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Name"
+        android:ems="10"
+        android:id="@+id/dialog_exercisename_edittext"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
