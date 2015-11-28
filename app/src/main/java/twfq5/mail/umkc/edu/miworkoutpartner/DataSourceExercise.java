@@ -164,10 +164,12 @@ public class DataSourceExercise {
         Cursor cursor = database.query(DatabaseHelper.TABLE_EXERCISES, allColumnsExercise, where, null, null, null, null);
         if(cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }
@@ -178,10 +180,12 @@ public class DataSourceExercise {
         Cursor cursor = database.query(DatabaseHelper.TABLE_EXERCISES, allColumnsExercise, where, null, null, null, null);
         if(cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }

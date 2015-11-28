@@ -158,6 +158,15 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_help_exercise)
+        {
+            Intent intent = new Intent(ExerciseActivity.this, HelpScreenActivity.class);
+            Bundle extras = new Bundle();
+            String s = "manage_exercise";
+            extras.putString(getString(R.string.EXTRA_HELP), s);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

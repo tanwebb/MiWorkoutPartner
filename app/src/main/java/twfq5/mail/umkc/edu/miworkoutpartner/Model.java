@@ -259,6 +259,13 @@ public class Model
         return result;
     }
 
+    public void resetCompletedSetsRelated(long workout_id)
+    {
+        openSet();
+        dataSourceSet.resetCompletedSetsRelated(workout_id);
+        closeSet();
+    }
+
     //*********Max Function Calls***********
 
     //Throws Exception if the Max is already in the database

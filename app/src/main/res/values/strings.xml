@@ -19,7 +19,81 @@
     <string name="title_activity_main_activity_elv">MainActivity_elv</string>
     <string name="title_activity_view_workouts">ViewWorkouts</string>
     <string name="title_activity_max">MaxActivity</string>
-
+    <string name="title_activity_help_screen">Help</string>
+    <string name="help_manage_workout">Managing Workouts</string>
+    <string name="help_manage_workout_text">1. Adding a Workout \n
+                                            - Click the Add workout button \n
+                                            - Enter the workout name and press ok \n\n
+                                            2. Editing a Workout Name\n
+                                            - Press and hold the workout that needs editing \n
+                                            - Select the Edit Workout option \n
+                                            - Enter the new workout name and press ok \n\n
+                                            3. Deleting a Workout \n
+                                            - Press and hold the workout that needs to be deleted \n
+                                            - Select the Delete Workout option \n
+                                            - Confirm the deletion \n
+                                            -* Note that this also deletes all associated exercises \n
+    </string>
+    <string name="help_manage_exercise">Managing Exercises</string>
+    <string name="help_manage_exercise_text">1. Adding an Exercise \n
+                                            - Click the Add Exercise button \n
+                                            - Enter the exercise name and press ok \n\n
+                                            2. Editing an Exercise Name\n
+                                            - Press and hold the exercise that needs editing \n
+                                            - Select the Edit Exercise option \n
+                                            - Enter the new exercise name and press ok \n\n
+                                            3. Deleting an Exercise \n
+                                            - Press and hold the exercise that needs to be deleted \n
+                                            - Select the Delete Exercise option \n
+                                            - Confirm the deletion \n
+                                            -* Note that this also deletes all associated sets \n
+    </string>
+    <string name="help_manage_set">Managing Sets</string>
+    <string name="help_manage_set_text">1. Adding a Set \n
+                                            - Click the Add Set button \n
+                                            - Enter the number of reps \n
+                                            - Enter the amount of weight \n
+                                            - Press ok \n\n
+                                            2. Editing a Set \n
+                                            - Press and hold the set that needs editing \n
+                                            - Select the Edit Set option \n
+                                            - Enter the new information for reps or weight \n
+                                            - Press ok \n\n
+                                            3. Deleting an Set \n
+                                            - Press and hold the set that needs to be deleted \n
+                                            - Select the Delete Set option \n
+                                            - Confirm the deletion \n
+    </string>
+    <string name="help_manage_max">Managing Maxes</string>
+    <string name="help_manage_max_text">1. Adding a Max \n
+                                            - Click the "+" in the top corner of the screen \n
+                                            - Enter the name of the lift \n
+                                            - Enter the amount weight lifted \n
+                                            - Enter the date when the max was reached \n
+                                            - Press ok \n\n
+                                            2. Editing a Max \n
+                                            - Press and hold the set that needs editing \n
+                                            - Select the Edit Max option \n
+                                            - Enter the new information for name, weight, or date \n
+                                            - Press ok \n\n
+                                            3. Deleting an Max \n
+                                            - Press and hold the max that needs to be deleted \n
+                                            - Select the Delete Max option \n
+                                            - Confirm the deletion \n
+    </string>
+    <string name="help_view_workout">Viewing Workouts</string>
+    <string name="help_view_workout_text">1. Viewing Sets within an Exercise \n
+                                            - Click an exercise to expand it \n
+                                            - Click it again to close it \n \n
+                                            2. Completing a Set \n
+                                            - Press and hold the set that was just completed \n
+                                            - Press yes to confirm the completion \n
+                                            - Progress bar will increase \n \n
+                                            3. Resetting the progress bar \n
+                                            - Press the reset button \n
+                                            -* Note this will change all sets to not completed \n
+    </string>
+    <string name="EXTRA_HELP">Extra Help</string>
 
 
 </resources>

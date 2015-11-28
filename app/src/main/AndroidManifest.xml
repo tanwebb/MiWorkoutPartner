@@ -38,6 +38,10 @@
             android:name=".MaxActivity"
             android:label="@string/title_activity_max" >
         </activity>
+        <activity
+            android:name=".HelpScreenActivity"
+            android:label="@string/title_activity_help_screen" >
+        </activity>
     </application>
 
 </manifest>

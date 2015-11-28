@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,8 @@ public class ViewWorkouts extends ListActivity implements View.OnClickListener {
 
         ArrayAdapter<Workout> adapter = new ArrayAdapter<Workout>(this, android.R.layout.simple_list_item_1, workouts);
         setListAdapter(adapter);
+
+        //Log.i(LOGTAG, "The current number of sets in the sets table is: " + model.countSetRows());
     }
 
     /*@Override

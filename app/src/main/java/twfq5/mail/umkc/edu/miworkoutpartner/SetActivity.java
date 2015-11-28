@@ -135,6 +135,15 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_help_set)
+        {
+            Intent intent = new Intent(SetActivity.this, HelpScreenActivity.class);
+            Bundle extras = new Bundle();
+            String s = "manage_set";
+            extras.putString(getString(R.string.EXTRA_HELP), s);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

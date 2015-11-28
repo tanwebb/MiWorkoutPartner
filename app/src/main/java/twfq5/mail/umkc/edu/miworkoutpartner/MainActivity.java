@@ -97,6 +97,15 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_help_main)
+        {
+            Intent intent = new Intent(MainActivity.this, HelpScreenActivity.class);
+            Bundle extras = new Bundle();
+            String s = "manage_workout";
+            extras.putString(getString(R.string.EXTRA_HELP), s);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

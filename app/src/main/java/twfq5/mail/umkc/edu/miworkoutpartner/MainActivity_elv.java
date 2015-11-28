@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +20,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity_elv extends ExpandableListActivity{
+public class MainActivity_elv extends ExpandableListActivity implements View.OnClickListener{
 
     Model model;
-
     private long passedInWorkoutID;
     private String passedInWorkoutName;
     private static final String LOGTAG = "miworkoutpartner";
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<ArrayList<SetCarrier>> childItems = new ArrayList<ArrayList<SetCarrier>>();
+    private ExpandableListView expandableList;
     private int progress;
     private ProgressBar progressBar;
 
@@ -57,7 +58,10 @@ public class MainActivity_elv extends ExpandableListActivity{
         }
         model = Model.instance(this.getApplicationContext());
 
-        ExpandableListView expandableList = (ExpandableListView)findViewById(android.R.id.list); // you can use (ExpandableListView) findViewById(R.id.list)
+        View resetWorkoutButton = findViewById(R.id.workout_reset_button);
+        resetWorkoutButton.setOnClickListener(this);
+
+        expandableList = (ExpandableListView)findViewById(android.R.id.list); // you can use (ExpandableListView) findViewById(R.id.list)
         expandableList.setDividerHeight(2);
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar1);
@@ -84,11 +88,22 @@ public class MainActivity_elv extends ExpandableListActivity{
 
     public void showList()
     {
+        ArrayList<Integer> currentlyExpandedGroups = new ArrayList<Integer>();
+        currentlyExpandedGroups = getExpandedGroups();
+
         setGroupParents();
         setChildData();
 
         MyExpandableAdapter adapter = new MyExpandableAdapter(this, parentItems, childItems);
         setListAdapter(adapter);
+
+        for(int i = 0; i < adapter.getGroupCount(); i++)
+        {
+            if(currentlyExpandedGroups.contains(i))
+            {
+                expandableList.expandGroup(i);
+            }
+        }
 
         double progressCalculation = (model.countAllRelatedCompleted(passedInWorkoutID) /
                                         model.countAllRelated(passedInWorkoutID)) * 100;
@@ -157,4 +172,61 @@ public class MainActivity_elv extends ExpandableListActivity{
 
         return super.onContextItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main_activity_elv, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        else if (id == R.id.action_help_main_elv)
+        {
+            Intent intent = new Intent(MainActivity_elv.this, HelpScreenActivity.class);
+            Bundle extras = new Bundle();
+            String s = "view_workout";
+            extras.putString(getString(R.string.EXTRA_HELP), s);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        if(v.getId() == R.id.workout_reset_button)
+        {
+            model.resetCompletedSetsRelated(passedInWorkoutID);
+        }
+
+        showList();
+    }
+
+    public ArrayList<Integer> getExpandedGroups()
+    {
+        ArrayList<Integer> curExpanded = new ArrayList<Integer>();
+        for(int i = 0; i < parentItems.size(); i++)
+        {
+            if(expandableList.isGroupExpanded(i))
+            {
+                curExpanded.add(i);
+            }
+        }
+        return curExpanded;
+    }
+
+
 }

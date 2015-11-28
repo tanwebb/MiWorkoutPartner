@@ -36,6 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Reset Workout"
+        android:id="@+id/workout_reset_button"
+        android:layout_gravity="right" />
+
     <ExpandableListView
         android:id="@android:id/list"
         android:layout_height="match_parent"

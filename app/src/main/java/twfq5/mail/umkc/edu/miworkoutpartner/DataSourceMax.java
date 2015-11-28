@@ -13,8 +13,7 @@ import static android.database.DatabaseUtils.queryNumEntries;
 /**
  * Created by Tanner on 10/7/2015.
  */
-public class DataSourceMax
-{
+public class DataSourceMax {
     private static final String LOGTAG = "miworkoutpartner";
     private static DataSourceMax instance = null;
 
@@ -28,7 +27,7 @@ public class DataSourceMax
 
     public synchronized static DataSourceMax instance(Context context)
     {
-        if( instance == null )
+        if (instance == null)
         {
             instance = new DataSourceMax(context);
         }
@@ -60,7 +59,7 @@ public class DataSourceMax
     //Throws Exception if the Workout is already in the database
     public MaxLift createMaxEntry(MaxLift max) throws Exception
     {
-        if(maxExists(max))
+        if (maxExists(max))
         {
             Exception e = new Exception("Invalid Input");
             throw e;
@@ -79,7 +78,7 @@ public class DataSourceMax
     //Throws Exception if the max ID is not in the database
     public boolean removeMax(long max_id) throws Exception
     {
-        if(validMaxID(max_id) == false)
+        if (validMaxID(max_id) == false)
         {
             Exception e = new Exception("Invalid Input");
             throw e;
@@ -93,7 +92,7 @@ public class DataSourceMax
     //Throws Exception if the Workout is already in the database
     public boolean updateMax(MaxLift max) throws Exception
     {
-        if(maxExists(max))
+        if (maxExistsUpdate(max))
         {
             Exception e = new Exception("Invalid Input");
             throw e;
@@ -115,9 +114,9 @@ public class DataSourceMax
         Cursor cursor = database.query(DatabaseHelper.TABLE_MAXES, allColumnsMaxes, null, null, null, null, null);
 
         Log.i(LOGTAG, "Returned " + cursor.getCount() + " rows");
-        if(cursor.getCount() > 0)
+        if (cursor.getCount() > 0)
         {
-            while(cursor.moveToNext())
+            while (cursor.moveToNext())
             {
                 MaxLift max = new MaxLift();
                 max.set_id(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_MAX_ID)));
@@ -136,26 +135,56 @@ public class DataSourceMax
     {
         String where = DatabaseHelper.COLUMN_MAX_NAME + "=" + "\"" + maxLift.get_exerciseName() + "\"";
         Cursor cursor = database.query(DatabaseHelper.TABLE_MAXES, allColumnsMaxes, where, null, null, null, null);
-        if(cursor.getCount() > 0)
+        if (cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }
 
     public boolean validMaxID(long max_id)
     {
-        String where = DatabaseHelper.COLUMN_MAX_ID + "=" + max_id +";";
+        String where = DatabaseHelper.COLUMN_MAX_ID + "=" + max_id + ";";
         Cursor cursor = database.query(DatabaseHelper.TABLE_MAXES, allColumnsMaxes, where, null, null, null, null);
-        if(cursor.getCount() > 0)
+        if (cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
+            return false;
+        }
+    }
+
+    public boolean maxExistsUpdate(MaxLift maxLift)
+    {
+        String where = DatabaseHelper.COLUMN_MAX_ID + "=" + maxLift.get_id() + ";";
+        Cursor cursor = database.query(DatabaseHelper.TABLE_MAXES, allColumnsMaxes, where, null, null, null, null);
+        if(maxExists(maxLift))
+        {
+            cursor.moveToNext();
+            //If name wasn't updated but other max information was that is still an acceptable input
+            if (cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_MAX_NAME)).equals(maxLift.get_exerciseName()))
+            {
+                cursor.close();
+                return false;
+            }
+            else
+            {
+                cursor.close();
+                return true;
+            }
+        }
+        else
+        {
+            cursor.close();
             return false;
         }
     }

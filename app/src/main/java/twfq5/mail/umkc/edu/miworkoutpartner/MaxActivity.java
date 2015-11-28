@@ -99,6 +99,15 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.action_help_max)
+        {
+            Intent intent = new Intent(MaxActivity.this, HelpScreenActivity.class);
+            Bundle extras = new Bundle();
+            String s = "manage_max";
+            extras.putString(getString(R.string.EXTRA_HELP), s);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }

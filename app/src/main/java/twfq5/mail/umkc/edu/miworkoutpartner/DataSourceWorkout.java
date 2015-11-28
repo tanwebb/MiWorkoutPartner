@@ -125,10 +125,12 @@ public class DataSourceWorkout
         Cursor cursor = database.query(DatabaseHelper.TABLE_WORKOUTS, allColumnsWorkout, where, null, null, null, null);
         if(cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }
@@ -139,10 +141,12 @@ public class DataSourceWorkout
         Cursor cursor = database.query(DatabaseHelper.TABLE_WORKOUTS, allColumnsWorkout, where, null, null, null, null);
         if(cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }

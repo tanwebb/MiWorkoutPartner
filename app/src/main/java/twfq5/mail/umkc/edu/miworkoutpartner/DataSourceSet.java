@@ -219,10 +219,12 @@ public class DataSourceSet
         Cursor cursor = database.query(DatabaseHelper.TABLE_SETS, allColumnsSet, where, null, null, null, null);
         if(cursor.getCount() > 0)
         {
+            cursor.close();
             return true;
         }
         else
         {
+            cursor.close();
             return false;
         }
     }
@@ -310,5 +312,44 @@ public class DataSourceSet
         }
         cursor.close();
         return count;
+    }
+
+    public void resetCompletedSetsRelated(long workout_id)
+    {
+        //Get all the Exercises that correspond with the workout
+        String rawQuery = "SELECT * FROM " + DatabaseHelper.TABLE_WORKOUTS + " INNER JOIN " +
+                DatabaseHelper.TABLE_EXERCISES + " ON " + DatabaseHelper.TABLE_WORKOUTS +
+                "." + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.TABLE_EXERCISES +
+                "." + DatabaseHelper.COLUMN_EXERCISE_WORKOUTID + " WHERE " +
+                DatabaseHelper.COLUMN_EXERCISE_WORKOUTID + " = " + workout_id + ";";
+
+        Cursor cursor = database.rawQuery(rawQuery, null);
+        if(cursor.getCount() > 0)
+        {
+            //Get all the sets from the current exercise
+            while(cursor.moveToNext())
+            {
+                long exerciseID = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_EXERCISE_ID));
+                String secondRawQuery = "Select * FROM " + DatabaseHelper.TABLE_SETS + " WHERE " +
+                        DatabaseHelper.COLUMN_SET_EXERCISEID + "=" + exerciseID;
+                Cursor secondCursor = database.rawQuery(secondRawQuery, null);
+                if(secondCursor.getCount() > 0)
+                {
+                    while(secondCursor.moveToNext())
+                    {
+                        Set set = new Set();
+                        set.set_id(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_ID)));
+                        set.set_reps(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_REPS)));
+                        set.set_weight(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_WEIGHT)));
+                        set.set_exerciseid(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_EXERCISEID)));
+                        set.set_completed(secondCursor.getInt(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_COMPLETED)));
+                        set.set_completed(0);
+                        updateSet(set);
+                    }
+                }
+                secondCursor.close();
+            }
+        }
+        cursor.close();
     }
 }
