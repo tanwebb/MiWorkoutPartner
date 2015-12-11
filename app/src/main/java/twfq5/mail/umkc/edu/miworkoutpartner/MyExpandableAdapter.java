@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
+    private static final String LOGTAG = "miworkoutpartner";
     private Context context;
     private ArrayList<ArrayList<SetCarrier>> childItems;
     private ArrayList<String> parentItems;
@@ -33,24 +34,27 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         child = childItems.get(groupPosition);
-
         TextView textView = null;
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(context).inflate(R.layout.group_elv, null);
         }
 
         textView = (TextView) convertView.findViewById(R.id.group_textView);
-        textView.setText(child.get(childPosition).getSetString() + child.get(childPosition).getSet().get_id());
-        if(child.get(childPosition).getSet().get_completed() == 1)
-        {
-            textView.setBackgroundColor(Color.GREEN);
-        }
-        else
-        {
-            textView.setBackgroundColor(Color.WHITE);
-        }
+        textView.setText(child.get(childPosition).getSetString());
+        textView.setBackgroundColor(Color.WHITE);
 
+        //When finding sets if there weren't any for a
+        //certain exercise the SetCarrier's set was said to be null.
+        //This is why this needs to be checked
+        if (child.get(childPosition).getSet() != null)
+        {
+            if (child.get(childPosition).getSet().get_completed() == 1)
+            {
+                textView.setBackgroundColor(Color.GREEN);
+            }
+        }
         return convertView;
     }
 

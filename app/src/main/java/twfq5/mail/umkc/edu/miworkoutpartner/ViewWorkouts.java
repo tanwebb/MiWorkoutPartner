@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ViewWorkouts extends ListActivity implements View.OnClickListener {
 
-    Model model;
+    private Model model;
     private static final String LOGTAG = "miworkoutpartner";
     String curWorkoutName;
 
@@ -34,6 +34,8 @@ public class ViewWorkouts extends ListActivity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id)
             {
+                //Intent to go to the MainActivity_elv Activity
+                //Passes the workout's id and name
                 Workout w = (Workout)parent.getItemAtPosition(position);
                 Intent intent = new Intent(ViewWorkouts.this, MainActivity_elv.class);
                 long workoutID = w.get_id();
@@ -51,27 +53,10 @@ public class ViewWorkouts extends ListActivity implements View.OnClickListener {
 
     public void showList()
     {
-        //model.openWorkout();
-
         List<Workout> workouts = model.findAllWorkouts();
-
         ArrayAdapter<Workout> adapter = new ArrayAdapter<Workout>(this, android.R.layout.simple_list_item_1, workouts);
         setListAdapter(adapter);
-
-        //Log.i(LOGTAG, "The current number of sets in the sets table is: " + model.countSetRows());
     }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        model.openWorkout();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        model.closeWorkout();
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

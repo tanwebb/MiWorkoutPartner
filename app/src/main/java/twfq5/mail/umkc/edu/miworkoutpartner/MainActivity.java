@@ -31,8 +31,7 @@ import java.util.List;
 public class MainActivity extends ListActivity implements View.OnClickListener{
 
     private static final String LOGTAG = "miworkoutpartner";
-    Model model;
-    //String curWorkoutName;
+    private Model model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,8 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id)
             {
+                //Intent to go to the Exercise Activity
+                //Passes the workout's id and name
                 Workout w = (Workout)parent.getItemAtPosition(position);
                 Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
                 long workoutID = w.get_id();
@@ -70,10 +71,6 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
 
     public void showList()
     {
-        //model.openWorkout();
-        //model.openExercise();
-        //model.openSet();
-
         List<Workout> workouts = model.findAllWorkouts();
         ArrayAdapter<Workout> adapter = new ArrayAdapter<Workout>(this, android.R.layout.simple_list_item_1, workouts);
         setListAdapter(adapter);
@@ -213,7 +210,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
         builder.show();
     }
 
-    public void editWorkout(final Workout w)
+    public void editWorkout(final Workout workout)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -223,7 +220,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(addWorkoutNameView);
         EditText workoutName = (EditText) addWorkoutNameView.findViewById(R.id.dialog_workoutname_edittext);
-        workoutName.setText(w.get_workoutname());
+        workoutName.setText(workout.get_workoutname());
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -234,8 +231,8 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
 
                 try
                 {
-                    w.set_workoutname(curWorkoutName);
-                    model.updateWorkout(w);
+                    workout.set_workoutname(curWorkoutName);
+                    model.updateWorkout(workout);
                 }
                 catch(Exception e)
                 {
@@ -271,7 +268,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
         builder.show();
     }
 
-    public void deleteWorkout(final Workout w)
+    public void deleteWorkout(final Workout workout)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -287,11 +284,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener{
             public void onClick(DialogInterface dialog, int which) {
                 try
                 {
-                    model.removeAssociatedSetWorkout(w.get_id());
-                    model.countSetRows();
-                    model.removeAssociatedExercises(w.get_id());
-                    model.countExerciseRows();
-                    model.removeWorkout(w.get_id());
+                    model.removeEntireWorkout(workout.get_id());
                 }
                 catch(Exception e)
                 {

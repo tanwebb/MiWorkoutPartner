@@ -19,6 +19,7 @@ public class Model
     private DataSourceExercise dataSourceExercise;
     private DataSourceSet dataSourceSet;
     private DataSourceMax dataSourceMax;
+    private DataSourceExerciseVideo dataSourceExerciseVideo;
 
     //Singleton Design Pattern
     private Model(Context context) {
@@ -26,6 +27,7 @@ public class Model
         dataSourceExercise = DataSourceExercise.instance(context.getApplicationContext());
         dataSourceSet = DataSourceSet.instance(context.getApplicationContext());
         dataSourceMax = DataSourceMax.instance(context.getApplicationContext());
+        dataSourceExerciseVideo = DataSourceExerciseVideo.instance(context.getApplicationContext());
     }
 
     public synchronized static Model instance(Context context)
@@ -78,6 +80,14 @@ public class Model
         dataSourceMax.close();
     }
 
+    public void openExerciseVideo(){
+        dataSourceExerciseVideo.open();
+    }
+
+    public void closeExerciseVideo(){
+        dataSourceExerciseVideo.close();
+    }
+
 
     //*********Workout Function Calls***********
 
@@ -113,6 +123,23 @@ public class Model
         openWorkout();
         List<Workout> result= dataSourceWorkout.findAllWorkouts();
         closeWorkout();
+        return result;
+    }
+
+    public long countAllWorkouts()
+    {
+        openWorkout();
+        long result= dataSourceWorkout.countAllWorkouts();
+        closeWorkout();
+        return result;
+    }
+
+    //Throws Exception if the Workout ID is not in the database
+    public boolean removeEntireWorkout(long workoutID) throws Exception
+    {
+        removeAssociatedSetWorkout(workoutID);
+        removeAssociatedExercises(workoutID);
+        boolean result = removeWorkout(workoutID);
         return result;
     }
 
@@ -177,6 +204,13 @@ public class Model
         return result;
     }
 
+    public boolean removeEntireExercise(long exerciseID) throws Exception
+    {
+        removeAssociatedSetExercise(exerciseID);
+        boolean result = removeExercise(exerciseID);
+        return result;
+    }
+
     //*********Set Function Calls***********
     public Set createSetEntry(Set set)
     {
@@ -235,10 +269,10 @@ public class Model
         return result;
     }
 
-    public ArrayList<ArrayList<SetCarrier>> findCertainSetsToString(long workout_id)
+    public ArrayList<ArrayList<SetCarrier>> findCertainSetsToSetCarrier(long workout_id)
     {
         openSet();
-        ArrayList<ArrayList<SetCarrier>> result = dataSourceSet.findCertainSetsToString(workout_id);
+        ArrayList<ArrayList<SetCarrier>> result = dataSourceSet.findCertainSetsToSetCarrier(workout_id);
         closeSet();
         return result;
     }
@@ -300,6 +334,56 @@ public class Model
         openMax();
         List<MaxLift> result = dataSourceMax.findAllMaxes();
         closeMax();
+        return result;
+    }
+
+    //*********Exercise Video Function Calls***********
+
+    //Throws Exception if the Max is already in the database
+    public void createAllExerciseVideos(String[] names, String[] urls)
+    {
+        openExerciseVideo();
+        dataSourceExerciseVideo.createAllExerciseVideos(names, urls);
+        closeExerciseVideo();
+    }
+
+    public ExerciseVideo insertExerciseVideo(ExerciseVideo exerciseVideo)
+    {
+        openExerciseVideo();
+        ExerciseVideo result = dataSourceExerciseVideo.insertExerciseVideo(exerciseVideo);
+        closeExerciseVideo();
+        return result;
+    }
+
+    public boolean removeExerciseVideo(long exercisevideo_id)
+    {
+        openExerciseVideo();
+        boolean result = dataSourceExerciseVideo.removeExerciseVideo(exercisevideo_id);
+        closeExerciseVideo();
+        return result;
+    }
+
+    public long countAllExerciseVideos()
+    {
+        openExerciseVideo();
+        long result = dataSourceExerciseVideo.countExerciseVideoRows();
+        closeExerciseVideo();
+        return result;
+    }
+
+    public List<ExerciseVideo> findAllExerciseVideos()
+    {
+        openExerciseVideo();
+        List<ExerciseVideo> result = dataSourceExerciseVideo.findAllExerciseVideos();
+        closeExerciseVideo();
+        return result;
+    }
+
+    public List<ExerciseVideo> findAllExerciseVideosSearch(String searchValue)
+    {
+        openExerciseVideo();
+        List<ExerciseVideo> result = dataSourceExerciseVideo.findAllExerciseVideosSearch(searchValue);
+        closeExerciseVideo();
         return result;
     }
 

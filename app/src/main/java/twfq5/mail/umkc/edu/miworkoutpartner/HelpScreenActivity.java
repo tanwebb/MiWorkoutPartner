@@ -31,12 +31,14 @@ public class HelpScreenActivity extends AppCompatActivity {
         else
         {
             passedInValue = extras.getString(getString(R.string.EXTRA_HELP));
-            Log.i(LOGTAG, "The ExerciseID passed in is: " + passedInValue);
+            Log.i(LOGTAG, "The value passed in is: " + passedInValue);
         }
 
         TextView helpManage = (TextView)findViewById(R.id.help_manage);
         TextView helpManageText = (TextView)findViewById(R.id.help_manage_text);
 
+        //Depending on what was passed through the intent,
+        // different messages will be shown on the screen
         if(passedInValue.equals("manage_workout"))
         {
             helpManage.setText(R.string.help_manage_workout);
@@ -61,6 +63,11 @@ public class HelpScreenActivity extends AppCompatActivity {
         {
             helpManage.setText(R.string.help_view_workout);
             helpManageText.setText(R.string.help_view_workout_text);
+        }
+        else if(passedInValue.equals("view_videos"))
+        {
+            helpManage.setText(R.string.help_view_video);
+            helpManageText.setText(R.string.help_view_video_text);
         }
     }
 

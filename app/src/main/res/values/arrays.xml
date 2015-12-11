@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exercise_video_names">
+        <item>Bench Press</item>
+        <item>Squats</item>
+        <item>Deadlifts</item>
+        <item>Incline Bench</item>
+        <item>Curls</item>
+        <item>Shrugs</item>
+        <item>Skull Crushers</item>
+        <item>Planks</item>
+        <item>Military Press</item>
+        <item>Bent Over Rows</item>
+        <item>Butterflys</item>
+        <item>Barbell Lunges</item>
+    </string-array>
+    <string-array name="exercise_video_urls">
+        <item>http://videocdn.bodybuilding.com/video/mp4/52000/53781m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/52000/53801m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/52000/53791m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/52000/53821m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/38000/39011m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/38000/38331m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/42000/42301m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/90000/91032m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/40000/40321m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/38000/38411m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/38000/38551m.mp4</item>
+        <item>http://videocdn.bodybuilding.com/video/mp4/106000/107032m.mp4</item>
+    </string-array>
+</resources>

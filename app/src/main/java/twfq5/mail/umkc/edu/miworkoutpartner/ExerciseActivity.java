@@ -26,10 +26,9 @@ import java.util.List;
 
 public class ExerciseActivity extends ListActivity implements View.OnClickListener
 {
-    Model model;
+    private Model model;
     private long passedInWorkoutID;
     private String passedInWorkoutName;
-    //private String curExerciseName;
     private static final String LOGTAG = "miworkoutpartner";
 
     @Override
@@ -66,6 +65,8 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
+                //Intent to go to the Set Activity
+                //Passes the exercise's id and name
                 Exercise e = (Exercise) parent.getItemAtPosition(position);
                 Intent intent = new Intent(ExerciseActivity.this, SetActivity.class);
                 long exerciseID = e.get_id();
@@ -83,62 +84,11 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
 
     public void showList()
     {
-        //model.openExercise();
-        //model.openSet();
-
         List<Exercise> exercises = model.findCertainExercises(passedInWorkoutID);
-        /*if(exercises.size() == 0)
-        {
-            createData();
-            exercises = datasource.findCertainExercises(passedInWorkoutID);
-        }*/
 
         ArrayAdapter<Exercise> adapter = new ArrayAdapter<Exercise>(this, android.R.layout.simple_list_item_1, exercises);
         setListAdapter(adapter);
     }
-
-    /*private void createEnterExerciseData(String enteredName)
-    {
-        Exercise exercise = new Exercise();
-        exercise.set_exercisename(enteredName);
-        exercise.set_workoutid(passedInWorkoutID);
-        exercise = model.createExerciseEntry(exercise);
-        Log.i(LOGTAG, "Exercise created with id:" + exercise.get_id() + " and name:" + exercise.get_exercisename()
-                + " and workoutid:" + exercise.get_workoutid());
-    }*/
-
-    /*
-    private void createData()
-    {
-        Exercise exercise = new Exercise();
-        exercise.set_exercisename("Exercise");
-        exercise.set_workoutid(passedInWorkoutID);
-        exercise = datasource.createExerciseEntry(exercise);
-        Log.i(LOGTAG, "Exercise created with id:" + exercise.get_id() + " and name:" + exercise.get_exercisename()
-                + " and workoutid:" + exercise.get_workoutid());
-
-        exercise.set_exercisename("Exercise");
-        exercise.set_workoutid(passedInWorkoutID);
-        exercise = datasource.createExerciseEntry(exercise);
-        Log.i(LOGTAG, "Exercise created with id:" + exercise.get_id() + " and name:" + exercise.get_exercisename()
-                + " and workoutid:" + exercise.get_workoutid());
-
-    }
-    */
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        model.openExercise();
-        model.openSet();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        model.closeExercise();
-        model.closeSet();
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,6 +110,8 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
         }
         else if (id == R.id.action_help_exercise)
         {
+            //Intent to go to the Help Activity
+            //Passes the a string
             Intent intent = new Intent(ExerciseActivity.this, HelpScreenActivity.class);
             Bundle extras = new Bundle();
             String s = "manage_exercise";
@@ -167,8 +119,28 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
             intent.putExtras(extras);
             startActivity(intent);
         }
+        else if(id == R.id.action_watch_exercise_in_activity)
+        {
+            //Intent to go to the ViewExerciseVideos Activity
+            //Passes the passed in workout's name and id
+            Intent intent = new Intent(ExerciseActivity.this, ViewExerciseVideos.class);
+            Bundle extras = new Bundle();
+            String s = passedInWorkoutName;
+            extras.putString(getString(R.string.EXTRA_EXERCISE_ACTIVITY_WNAME), s);
+            long l = passedInWorkoutID;
+            extras.putLong(getString(R.string.EXTRA_EXERCISE_ACTIVITY_WID), l);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        showList();
     }
 
     @Override
@@ -275,7 +247,7 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
         builder.show();
     }
 
-    public void editExercise(final Exercise e)
+    public void editExercise(final Exercise exercise)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -286,7 +258,7 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
         builder.setView(addExerciseNameView);
 
         EditText recentMaxName = (EditText) addExerciseNameView.findViewById(R.id.dialog_exercisename_edittext);
-        recentMaxName.setText(e.get_exercisename());
+        recentMaxName.setText(exercise.get_exercisename());
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -296,8 +268,8 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
                 String curExerciseName = exerciseName.getText().toString();
                 try
                 {
-                    e.set_exercisename(curExerciseName);
-                    model.updateExercise(e);
+                    exercise.set_exercisename(curExerciseName);
+                    model.updateExercise(exercise);
                 }
                 catch (Exception e)
                 {
@@ -333,7 +305,7 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
         builder.show();
     }
 
-    public void deleteExercise(final Exercise e)
+    public void deleteExercise(final Exercise exercise)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -350,8 +322,7 @@ public class ExerciseActivity extends ListActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 try
                 {
-                    model.removeAssociatedSetExercise(e.get_id());
-                    model.removeExercise(e.get_id());
+                    model.removeEntireExercise(exercise.get_id());
                 }
                 catch(Exception e)
                 {

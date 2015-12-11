@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 public class MainActivity_elv extends ExpandableListActivity implements View.OnClickListener{
 
-    Model model;
+    private Model model;
     private long passedInWorkoutID;
     private String passedInWorkoutName;
     private static final String LOGTAG = "miworkoutpartner";
@@ -97,6 +97,7 @@ public class MainActivity_elv extends ExpandableListActivity implements View.OnC
         MyExpandableAdapter adapter = new MyExpandableAdapter(this, parentItems, childItems);
         setListAdapter(adapter);
 
+        //Make sure groups that were opened before refreshing the screen, remain open
         for(int i = 0; i < adapter.getGroupCount(); i++)
         {
             if(currentlyExpandedGroups.contains(i))
@@ -105,6 +106,8 @@ public class MainActivity_elv extends ExpandableListActivity implements View.OnC
             }
         }
 
+        //Calculate the number of workouts completed vs uncompleted
+        //Update the progress bar accordingly
         double progressCalculation = (model.countAllRelatedCompleted(passedInWorkoutID) /
                                         model.countAllRelated(passedInWorkoutID)) * 100;
         progress = (int) progressCalculation;
@@ -117,7 +120,7 @@ public class MainActivity_elv extends ExpandableListActivity implements View.OnC
     }
 
     public void setChildData() {
-        childItems = model.findCertainSetsToString(passedInWorkoutID);
+        childItems = model.findCertainSetsToSetCarrier(passedInWorkoutID);
     }
 
     @Override
@@ -147,6 +150,8 @@ public class MainActivity_elv extends ExpandableListActivity implements View.OnC
         int groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
         int childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
         int id = item.getItemId();
+        final int NOT_COMPLETED = 0;
+        final int COMPLETED = 1;
 
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
         {
@@ -154,19 +159,25 @@ public class MainActivity_elv extends ExpandableListActivity implements View.OnC
             {
                 Log.i(LOGTAG, "in completed click Set clicked:" + groupPosition + " " + childPosition);
                 Set s = (Set) getExpandableListAdapter().getChild(groupPosition, childPosition);
-                s.set_completed(1);
-                model.updateSet(s);
-                Log.i(LOGTAG, "Set clicked:" + s.get_id());
-                showList();
+                if(s != null)
+                {
+                    s.set_completed(COMPLETED);
+                    model.updateSet(s);
+                    Log.i(LOGTAG, "Set clicked:" + s.get_id());
+                    showList();
+                }
             }
             else if(id == R.id.complete_set_button_no)
             {
                 Log.i(LOGTAG, "in not completed click Set clicked:" + groupPosition + " " + childPosition);
                 Set s = (Set) getExpandableListAdapter().getChild(groupPosition, childPosition);
-                s.set_completed(0);
-                model.updateSet(s);
-                Log.i(LOGTAG, "Set clicked:" + s.get_id());
-                showList();
+                if(s != null)
+                {
+                    s.set_completed(NOT_COMPLETED);
+                    model.updateSet(s);
+                    Log.i(LOGTAG, "Set clicked:" + s.get_id());
+                    showList();
+                }
             }
         }
 

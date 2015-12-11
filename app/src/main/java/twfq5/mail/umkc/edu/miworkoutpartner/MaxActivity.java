@@ -28,11 +28,8 @@ import java.util.List;
 public class MaxActivity extends ListActivity implements View.OnClickListener
 {
 
-    Model model;
+    private Model model;
     private static final String LOGTAG = "miworkoutpartner";
-    //private String curMaxName;
-    //private long curMaxWeight;
-    //private String curMaxDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,36 +47,16 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
 
     public void showList()
     {
-        //model.openMax();
-
         List<MaxLift> maxes = model.findAllMaxes();
         CustomAdapterMaxes adapter = new CustomAdapterMaxes(this, R.layout.max_lift_element, maxes);
         setListAdapter(adapter);
+
+        //*************Debugging Information**************
+        //NEED TO DELETE
+        model.countSetRows();
+        model.countExerciseRows();
+        model.countAllWorkouts();
     }
-
-    /*
-    private void createEnterMaxData(String enteredName, Long enteredWeight, String enteredDate)
-    {
-        MaxLift max = new MaxLift();
-        max.set_exerciseName(enteredName);
-        max.set_weight(enteredWeight);
-        max.set_date(enteredDate);
-        max = model.createMaxEntry(max);
-        Log.i(LOGTAG, "Max created with id:" + max.get_id() + " and name:" + max.get_exerciseName()
-                + " and workoutid:" + max.get_weight() + " " + max.get_date());
-    }*/
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        model.openMax();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        model.closeMax();
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -242,7 +219,7 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
         builder.show();
     }
 
-    public void updateMax(final MaxLift m)
+    public void updateMax(final MaxLift max)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -253,13 +230,13 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
         builder.setView(editMaxView);
 
         EditText recentMaxName = (EditText) editMaxView.findViewById(R.id.dialog_max_name);
-        recentMaxName.setText(m.get_exerciseName());
+        recentMaxName.setText(max.get_exerciseName());
 
         EditText recentMaxWeight = (EditText) editMaxView.findViewById(R.id.dialog_max_weight);
-        recentMaxWeight.setText(Long.toString(m.get_weight()));
+        recentMaxWeight.setText(Long.toString(max.get_weight()));
 
         EditText recentMaxDate = (EditText) editMaxView.findViewById(R.id.dialog_max_date);
-        recentMaxDate.setText(m.get_date());
+        recentMaxDate.setText(max.get_date());
 
         // Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -294,10 +271,10 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
 
                 try
                 {
-                    m.set_exerciseName(curMaxName);
-                    m.set_weight(curMaxWeight);
-                    m.set_date(curMaxDate);
-                    model.updateMax(m);
+                    max.set_exerciseName(curMaxName);
+                    max.set_weight(curMaxWeight);
+                    max.set_date(curMaxDate);
+                    model.updateMax(max);
                 }
                 catch (Exception e)
                 {
@@ -333,7 +310,7 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
         builder.show();
     }
 
-    public void deleteMax(final MaxLift m)
+    public void deleteMax(final MaxLift max)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -349,7 +326,7 @@ public class MaxActivity extends ListActivity implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 try
                 {
-                    model.removeMax(m.get_id());
+                    model.removeMax(max.get_id());
                 }
                 catch(Exception e)
                 {

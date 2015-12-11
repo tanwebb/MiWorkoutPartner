@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static DatabaseHelper sInstance = null;
 
     public static final String DATABASE_NAME = "miworkoutpartner.db";
-    public static final int DATABASE_VERSION = 8;
+    public static final int DATABASE_VERSION = 17;
 
     //*********Workout Table Information***********
     public static final String TABLE_WORKOUTS = "workouts";
@@ -66,6 +66,17 @@ public class DatabaseHelper extends SQLiteOpenHelper
                     COLUMN_MAX_WEIGHT + " INTEGER, " + COLUMN_MAX_DATE + " TEXT, " +
                     COLUMN_MAX_NAME + " TEXT" + ");";
 
+    //*********Exercise Video Table Information***********
+    public static final String TABLE_EXERCISE_VIDEOS = "exercisevideos";
+    public static final String COLUMN_EXERCISE_VIDEOS_ID = "id";
+    public static final String COLUMN_EXERCISE_VIDEOS_NAME = "video_name";
+    public static final String COLUMN_EXERCISE_VIDEOS_URL = "video_url";
+
+    private static final String TABLE_EXERCISE_VIDEOS_CREATE =
+            "CREATE TABLE " + TABLE_EXERCISE_VIDEOS + " (" +
+                    COLUMN_EXERCISE_VIDEOS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_EXERCISE_VIDEOS_NAME + " TEXT, " + COLUMN_EXERCISE_VIDEOS_URL +
+                    " TEXT" + ");";
 
     public static synchronized DatabaseHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
@@ -95,6 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
         Log.i(LOGTAG, "Sets table has been created");
         db.execSQL(TABLE_MAXES_CREATE);
         Log.i(LOGTAG, "Maxes table has been created");
+        db.execSQL(TABLE_EXERCISE_VIDEOS_CREATE);
+        Log.i(LOGTAG, "Exercise videos table has been created");
 
     }
 
@@ -105,6 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETS);
         db.execSQL("DROP TABLE IF EXISTS "  + TABLE_MAXES);
+        db.execSQL("DROP TABLE IF EXISTS "  + TABLE_EXERCISE_VIDEOS);
         onCreate(db);
     }
 }

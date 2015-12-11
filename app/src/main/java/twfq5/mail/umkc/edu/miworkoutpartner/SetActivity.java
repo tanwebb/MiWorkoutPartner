@@ -25,11 +25,9 @@ import java.util.List;
 
 public class SetActivity extends ListActivity implements View.OnClickListener {
 
-    Model model;
+    private Model model;
     private long passedInExerciseID;
     private String passedInExerciseName;
-    //private long curReps;
-    //private long curWeight;
     private static final String LOGTAG = "miworkoutpartner";
 
     @Override
@@ -66,56 +64,10 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
 
     public void showList()
     {
-        //model.openSet();
-
         List<Set> sets = model.findCertainSets(passedInExerciseID);
         ArrayAdapter<Set> adapter = new ArrayAdapter<Set>(this, android.R.layout.simple_list_item_1, sets);
         setListAdapter(adapter);
     }
-
-    /*
-    private void createEnterSetData(long reps, long weight)
-    {
-        Set set = new Set();
-        set.set_reps(reps);
-        set.set_weight(weight);
-        set.set_exerciseid(passedInExerciseID);
-        set = model.createSetEntry(set);
-        Log.i(LOGTAG, "Set created with id:" + set.get_id() + " and reps:" + set.get_reps()
-                + " and weight:" + set.get_weight() + " and eid:" + set.get_exerciseid());
-    }*/
-
-    /*
-    private void createData()
-    {
-        Set set = new Set();
-        set.set_reps(8);
-        set.set_weight(250);
-        set.set_exerciseid(passedInExerciseID);
-        set = datasource.createSetEntry(set);
-        Log.i(LOGTAG, "Set created with id:" + set.get_id() + " and reps:" + set.get_reps()
-                + " and weight:" + set.get_weight() + " and eid:" + set.get_exerciseid());
-
-        set.set_reps(8);
-        set.set_weight(250);
-        set.set_exerciseid(passedInExerciseID);
-        set = datasource.createSetEntry(set);
-        Log.i(LOGTAG, "Set created with id:" + set.get_id() + " and reps:" + set.get_reps()
-                + " and weight:" + set.get_weight() + " and eid:" + set.get_exerciseid());
-
-    }*/
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        model.openSet();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        model.closeSet();
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,6 +148,8 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View addSetNameView = inflater.inflate(R.layout.dialog_set, null);
+        final int NOT_COMPLETED = 0;
+        final int COMPLETED = 1;
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
@@ -272,7 +226,7 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
                 set.set_reps(curReps);
                 set.set_weight(curWeight);
                 set.set_exerciseid(passedInExerciseID);
-                set.set_completed(0);
+                set.set_completed(NOT_COMPLETED);
                 set = model.createSetEntry(set);
                 Log.i(LOGTAG, "Set created with id:" + set.get_id() + " and reps:" + set.get_reps()
                         + " and weight:" + set.get_weight() + " and eid:" + set.get_exerciseid());
@@ -297,7 +251,7 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
         builder.show();
     }
 
-    public void editSet(final Set s)
+    public void editSet(final Set set)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -307,9 +261,9 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(changeSetView);
         TextView changingReps = (TextView) changeSetView.findViewById(R.id.changing_reps);
-        changingReps.setText(String.valueOf(s.get_reps()));
+        changingReps.setText(String.valueOf(set.get_reps()));
         TextView changingWeight = (TextView) changeSetView.findViewById(R.id.changing_weight);
-        changingWeight.setText(String.valueOf(s.get_weight()));
+        changingWeight.setText(String.valueOf(set.get_weight()));
 
         View addRepsDialogButton = changeSetView.findViewById(R.id.add_reps_button);
         addRepsDialogButton.setOnClickListener(new View.OnClickListener() {
@@ -378,9 +332,9 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
                 String curWeightText = numberWeight.getText().toString();
                 long curWeight = Long.parseLong(curWeightText);
 
-                s.set_reps(curReps);
-                s.set_weight(curWeight);
-                model.updateSet(s);
+                set.set_reps(curReps);
+                set.set_weight(curWeight);
+                model.updateSet(set);
 
                 //Shuts keyboard
                 InputMethodManager inputManager = (InputMethodManager)
@@ -402,7 +356,7 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
         builder.show();
     }
 
-    public void deleteSet(final Set s)
+    public void deleteSet(final Set set)
     {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -419,7 +373,7 @@ public class SetActivity extends ListActivity implements View.OnClickListener {
             public void onClick(DialogInterface dialog, int which) {
                 try
                 {
-                    model.removeSet(s.get_id());
+                    model.removeSet(set.get_id());
                 }
                 catch(Exception e)
                 {

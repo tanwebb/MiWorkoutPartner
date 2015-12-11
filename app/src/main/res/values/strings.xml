@@ -91,9 +91,28 @@
                                             - Progress bar will increase \n \n
                                             3. Resetting the progress bar \n
                                             - Press the reset button \n
-                                            -* Note this will change all sets to not completed \n
+                                            -* Note: This will change all sets to not completed \n
     </string>
+    <string name="help_view_video">Viewing Exercise Videos</string>
+    <string name="help_view_video_text">1. Viewing Exercise Videos \n
+                                            - Click an exercise to view it \n \n
+                                            2. Adding an Exercise to a Workout \n
+                                            - Press and hold the video (exercise) to be added \n
+                                            - Press \"Add Exercise to Workout option\" \n
+                                            - Exercise will be added to the workout \n
+                                            -* Note: Must view videos while managing exercises for
+                                            "Add Exercise" option to be visible \n \n
+    </string>
+
     <string name="EXTRA_HELP">Extra Help</string>
+    <string name="title_activity_view_video">ViewVideo</string>
+    <string name="EXTRA_VIEW">Extra View</string>
+    <string name="title_activity_view_exercise_videos">ViewExerciseVideos</string>
+    <string name="EXTRA_EXERCISE_VIEW_NAME">Extra View Name</string>
+    <string name="EXTRA_EXERCISE_VIEW_URL">Extra View Url</string>
+    <string name="EXTRA_EXERCISE_VIEW_ID">Extra View ID</string>
+    <string name="EXTRA_EXERCISE_ACTIVITY_WID">Extra passed in WorkoutID</string>
+    <string name="EXTRA_EXERCISE_ACTIVITY_WNAME">Extra passed in Workoutname</string>
 
 
 </resources>

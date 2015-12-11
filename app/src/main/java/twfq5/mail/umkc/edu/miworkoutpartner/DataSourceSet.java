@@ -58,6 +58,10 @@ public class DataSourceSet
     }
 
     //*********Set Table Manipulation***********
+
+    //Function inserts a set into the SET table
+    //Set passed in has all of it's information set besides it's id
+    //Returns a set with everything set including it's id
     public Set createSetEntry(Set set)
     {
         ContentValues values = new ContentValues();
@@ -71,7 +75,9 @@ public class DataSourceSet
         return set;
     }
 
-    //Throws Exception if the Set ID is not in the database
+    //Throws Exception if the Set ID is not in the SET table
+    //Function removes a row from the SET table based on the id column
+    //Returns true if row was removed else returns false
     public boolean removeSet(long set_id) throws Exception
     {
         if(validSetID(set_id) == false)
@@ -85,6 +91,8 @@ public class DataSourceSet
         return (result == 1);
     }
 
+    //Function removes rows (set) from the SET table based on it's exerciseID column
+    //Returns true if row was removed else returns false
     public boolean removeAssociatedSetExercise(long exercise_id)
     {
         String where = DatabaseHelper.COLUMN_SET_EXERCISEID + "=" + exercise_id;
@@ -92,6 +100,8 @@ public class DataSourceSet
         return (result == 1);
     }
 
+    //Function removes rows (set) from the SET table based on it's exerciseID column
+    //Returns true if row was removed else returns false
     public void removeAssociatedSetWorkout(long workout_id)
     {
         String rawQuery = "SELECT * FROM " + DatabaseHelper.TABLE_WORKOUTS + " INNER JOIN " +
@@ -99,7 +109,7 @@ public class DataSourceSet
                 "." + DatabaseHelper.COLUMN_ID + " = " + DatabaseHelper.TABLE_EXERCISES +
                 "." + DatabaseHelper.COLUMN_EXERCISE_WORKOUTID + " WHERE " +
                 DatabaseHelper.COLUMN_EXERCISE_WORKOUTID + " = " + workout_id + ";";
-        Cursor cursor = database.rawQuery(rawQuery, null);
+        Cursor cursor = database.rawQuery(rawQuery, null); //Find all exercises that have the same workout_id
         if(cursor.getCount() > 0)
         {
             while(cursor.moveToNext())
@@ -108,7 +118,7 @@ public class DataSourceSet
                 long exerciseID = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_EXERCISE_ID));
                 String execQuery = "DELETE FROM " + DatabaseHelper.TABLE_SETS + " WHERE " +
                         DatabaseHelper.COLUMN_SET_EXERCISEID + "=" + exerciseID;
-                database.execSQL(execQuery);
+                database.execSQL(execQuery); //Delete all set's that have the same exercise_id as the found exercise
             }
         }
         cursor.close();
@@ -121,6 +131,8 @@ public class DataSourceSet
         return result;
     }
 
+    //Function updates a row with a specific set id information
+    //Returns true if row was updated else returns false
     public boolean updateSet(Set set)
     {
         ContentValues values = new ContentValues();
@@ -132,6 +144,8 @@ public class DataSourceSet
         return (result == 1);
     }
 
+    //Function finds all rows in the SET table that have a matching exerciseid
+    // and returns them in an ArrayList of Exercises
     public List<Set> findCertainSets(long exerciseID)
     {
         List<Set> sets = new ArrayList<Set>();
@@ -161,7 +175,9 @@ public class DataSourceSet
         return sets;
     }
 
-    public ArrayList<ArrayList<SetCarrier>> findCertainSetsToString(long workout_id)
+    //Function finds all rows in the SET table that have a matching exerciseid
+    // and returns them in an ArrayList of an ArrayList of setCarriers
+    public ArrayList<ArrayList<SetCarrier>> findCertainSetsToSetCarrier(long workout_id)
     {
         ArrayList<ArrayList<SetCarrier>> setStrings = new ArrayList<ArrayList<SetCarrier>>();
 
@@ -229,8 +245,12 @@ public class DataSourceSet
         }
     }
 
+    //Function counts all corresponding rows from the SET table whose completed column equals 1
+    // and returns them in a double
     public double countAllRelatedCompleted(long workout_id)
     {
+        final int NOT_COMPLETED = 0;
+        final int COMPLETED = 1;
         double count = 0;
 
         //Get all the Exercises that correspond with the workout
@@ -260,7 +280,7 @@ public class DataSourceSet
                         set.set_weight(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_WEIGHT)));
                         set.set_exerciseid(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_EXERCISEID)));
                         set.set_completed(secondCursor.getInt(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_COMPLETED)));
-                        if(set.get_completed() == 1)
+                        if(set.get_completed() == COMPLETED)
                         {
                             count++;
                         }
@@ -273,6 +293,7 @@ public class DataSourceSet
         return count;
     }
 
+    //Function counts all corresponding rows from the SET table and returns the count as a double
     public double countAllRelated(long workout_id)
     {
         double count = 0;
@@ -314,8 +335,12 @@ public class DataSourceSet
         return count;
     }
 
+    //Function changes all corresponding rows in the SET table to not completed
     public void resetCompletedSetsRelated(long workout_id)
     {
+        final int NOT_COMPLETED = 0;
+        final int COMPLETED = 1;
+
         //Get all the Exercises that correspond with the workout
         String rawQuery = "SELECT * FROM " + DatabaseHelper.TABLE_WORKOUTS + " INNER JOIN " +
                 DatabaseHelper.TABLE_EXERCISES + " ON " + DatabaseHelper.TABLE_WORKOUTS +
@@ -343,7 +368,7 @@ public class DataSourceSet
                         set.set_weight(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_WEIGHT)));
                         set.set_exerciseid(secondCursor.getLong(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_EXERCISEID)));
                         set.set_completed(secondCursor.getInt(secondCursor.getColumnIndex(DatabaseHelper.COLUMN_SET_COMPLETED)));
-                        set.set_completed(0);
+                        set.set_completed(NOT_COMPLETED);
                         updateSet(set);
                     }
                 }

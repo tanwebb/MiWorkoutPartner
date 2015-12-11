@@ -4,4 +4,6 @@
     tools:context="twfq5.mail.umkc.edu.workoutdatabasepractice.Homescreen">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_watch_exercise" android:title="Exercise Demonstration Videos" app:showAsAction="never" />
 </menu>

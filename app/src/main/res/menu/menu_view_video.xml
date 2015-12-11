@@ -1,10 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="twfq5.mail.umkc.edu.workoutdatabasepractice.ExerciseActivity">
+    tools:context="twfq5.mail.umkc.edu.miworkoutpartner.ViewVideo">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
-
-    <item android:id="@+id/action_help_exercise" android:title="Help" app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_watch_exercise_in_activity" android:title="Exercise Demonstration Videos" app:showAsAction="never" />
 </menu>

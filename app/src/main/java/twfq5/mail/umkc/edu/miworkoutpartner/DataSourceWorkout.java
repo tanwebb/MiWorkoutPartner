@@ -54,6 +54,9 @@ public class DataSourceWorkout
     //*********Workout Table Manipulation***********
 
     //Throws Exception if the Workout is already in the database
+    //Function inserts an Workout into the Workout table
+    //Workout passed in has all information set besides it's id
+    //Returns a Workout with everything set including it's id
     public Workout createWorkoutEntry(Workout workout) throws Exception {
 
         if(workoutExists(workout))
@@ -71,6 +74,8 @@ public class DataSourceWorkout
     }
 
     //Throws Exception if the workout ID is not in the database
+    //Function removes a row from the WORKOUTS table based on the id column
+    //Returns true if row was removed else returns false
     public boolean removeWorkout(long workout_id) throws Exception
     {
         if(validWorkoutID(workout_id) == false)
@@ -85,6 +90,8 @@ public class DataSourceWorkout
     }
 
     //Throws Exception if the Workout is already in the database
+    //Function updates a row's, with a specific id, information
+    //Returns true if row was updated else returns false
     public boolean updateWorkout(Workout workout) throws Exception {
 
         if(workoutExists(workout))
@@ -100,6 +107,7 @@ public class DataSourceWorkout
         return (result == 1);
     }
 
+    //Function finds all rows in the WORKOUTS table and returns them in an ArrayList of Workout
     public List<Workout> findAllWorkouts() {
         List<Workout> workouts = new ArrayList<Workout>();
 
@@ -119,6 +127,14 @@ public class DataSourceWorkout
         return workouts;
     }
 
+    public long countAllWorkouts()
+    {
+        long result = queryNumEntries(database, DatabaseHelper.TABLE_WORKOUTS);
+        Log.i(LOGTAG, "There are " + result + " rows in workout database");
+        return result;
+    }
+
+    //Checks if a Workout with the same name already exists in the WORKOUT table
     public boolean workoutExists(Workout workout)
     {
         String where = DatabaseHelper.COLUMN_NAME + "=" + "\"" + workout.get_workoutname() + "\"";
@@ -135,6 +151,7 @@ public class DataSourceWorkout
         }
     }
 
+    //Makes sure that the id from a Workout is actually in the WORKOUTS table
     public boolean validWorkoutID(long workout_id)
     {
         String where = DatabaseHelper.COLUMN_ID + "=" + workout_id +";";

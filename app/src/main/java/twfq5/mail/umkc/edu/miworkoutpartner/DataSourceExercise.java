@@ -54,6 +54,9 @@ public class DataSourceExercise {
     //*********Exercise Table Manipulation***********
 
     //Throws Exception if Exercise with same Name and workoutID already exist in the database
+    //Function inserts an exercise into the EXERCISES table
+    //Exercise passed in has all of it's information set besides it's id
+    //Returns an exercise with everything set including it's id
     public Exercise createExerciseEntry(Exercise exercise) throws Exception
     {
         if(exerciseExists(exercise))
@@ -72,6 +75,8 @@ public class DataSourceExercise {
     }
 
     //Throws Exception if the Exercise ID is not in the database
+    //Function removes a row from the EXERCISES table based on the id column
+    //Returns true if row was removed else returns false
     public boolean removeExercise(long exercise_id) throws Exception
     {
         if(validExerciseID(exercise_id) == false)
@@ -85,13 +90,17 @@ public class DataSourceExercise {
         return (result == 1);
     }
 
+    //Function removes rows (exercise) from the EXERCISES table based on it's workoutID column
+    //Returns true if row was removed else returns false
     public boolean removeAssociatedExercises(long workout_id) {
         String where = DatabaseHelper.COLUMN_EXERCISE_WORKOUTID + "=" + workout_id;
         int result = database.delete(DatabaseHelper.TABLE_EXERCISES, where, null);
         return (result == 1);
     }
 
-    //Throws Exception if Exercise with same Name and workoutID already exist in the database
+    //Throws Exception if Exercise with same Name and workoutID already exist in the EXERCISES table
+    //Function updates a row with a specific exercise id information
+    //Returns true if row was updated else returns false
     public boolean updateExercise(Exercise exercise) throws Exception
     {
         if(exerciseExists(exercise))
@@ -113,6 +122,8 @@ public class DataSourceExercise {
         return result;
     }
 
+    //Function finds all rows in the EXERCISES table that have a matching workoutid
+    // and returns them in an ArrayList of Exercises
     public List<Exercise> findCertainExercises(long workoutID) {
         List<Exercise> exercises = new ArrayList<Exercise>();
         String rawQuery = "SELECT * FROM " + DatabaseHelper.TABLE_WORKOUTS + " INNER JOIN " +
@@ -137,6 +148,8 @@ public class DataSourceExercise {
         return exercises;
     }
 
+    //Function finds all rows in the EXERCISES table that have a matching workoutid
+    // and returns them in an ArrayList of Strings
     public ArrayList<String> findCertainExercisesToString(long workout_id) {
         ArrayList<String> exerciseNames = new ArrayList<String>();
         String rawQuery = "SELECT * FROM " + DatabaseHelper.TABLE_WORKOUTS + " INNER JOIN " +
@@ -156,6 +169,7 @@ public class DataSourceExercise {
         return exerciseNames;
     }
 
+    //Checks if an exercise with the same name already exists in the EXERCISES table
     public boolean exerciseExists(Exercise exercise)
     {
         String where = DatabaseHelper.COLUMN_EXERCISE_NAME + "=" + "\"" + exercise.get_exercisename() + "\""
@@ -174,6 +188,7 @@ public class DataSourceExercise {
         }
     }
 
+    //Makes sure that the id from an exercise is actually in the EXERCISES table
     public boolean validExerciseID(long exercise_id)
     {
         String where = DatabaseHelper.COLUMN_EXERCISE_ID + "=" + exercise_id +";";

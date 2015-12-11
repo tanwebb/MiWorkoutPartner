@@ -41,6 +41,19 @@ public class Homescreen extends AppCompatActivity implements View.OnClickListene
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id == R.id.action_watch_exercise)
+        {
+            //Intent to go to the ViewExerciseVideos Activity
+            //Passes in a blank string and a 0
+            Intent intent = new Intent(Homescreen.this, ViewExerciseVideos.class);
+            Bundle extras = new Bundle();
+            String s = "";
+            extras.putString(getString(R.string.EXTRA_EXERCISE_ACTIVITY_WNAME), s);
+            long l = 0;
+            extras.putLong(getString(R.string.EXTRA_EXERCISE_ACTIVITY_WID), l);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -50,17 +63,19 @@ public class Homescreen extends AppCompatActivity implements View.OnClickListene
     {
         if(v.getId() == R.id.manage_workout_button)
         {
+            //Goto MainActivity
             Intent intent = new Intent(Homescreen.this, MainActivity.class);
             startActivity(intent);
-            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
         else if(v.getId() == R.id.view_workout_button)
         {
+            //Goto viewWorkoutsActivity
             Intent intent = new Intent(Homescreen.this, ViewWorkouts.class);
             startActivity(intent);
         }
         else if(v.getId() == R.id.view_maxes_button)
         {
+            //Goto MaxActivity
             Intent intent = new Intent(Homescreen.this, MaxActivity.class);
             startActivity(intent);
         }

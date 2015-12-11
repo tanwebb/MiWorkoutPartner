@@ -57,6 +57,9 @@ public class DataSourceMax {
     //*********Max Table Manipulation***********
 
     //Throws Exception if the Workout is already in the database
+    //Function inserts an max into the MAX table
+    //Max passed in has all information set besides it's id
+    //Returns a Max with everything set including it's id
     public MaxLift createMaxEntry(MaxLift max) throws Exception
     {
         if (maxExists(max))
@@ -76,6 +79,8 @@ public class DataSourceMax {
     }
 
     //Throws Exception if the max ID is not in the database
+    //Function removes a row from the MAXES table based on the id column
+    //Returns true if row was removed else returns false
     public boolean removeMax(long max_id) throws Exception
     {
         if (validMaxID(max_id) == false)
@@ -89,7 +94,9 @@ public class DataSourceMax {
         return (result == 1);
     }
 
-    //Throws Exception if the Workout is already in the database
+    //Throws Exception if the Max is already in the database
+    //Function updates row's, with a specific max id, information
+    //Returns true if row was updated else returns false
     public boolean updateMax(MaxLift max) throws Exception
     {
         if (maxExistsUpdate(max))
@@ -107,6 +114,7 @@ public class DataSourceMax {
         return (result == 1);
     }
 
+    //Function finds all rows in the MAXES table and returns them in an ArrayList of Maxes
     public List<MaxLift> findAllMaxes()
     {
         List<MaxLift> maxes = new ArrayList<MaxLift>();
@@ -131,6 +139,7 @@ public class DataSourceMax {
         return maxes;
     }
 
+    //Checks if a Max with the same name already exists in the MAXES table
     public boolean maxExists(MaxLift maxLift)
     {
         String where = DatabaseHelper.COLUMN_MAX_NAME + "=" + "\"" + maxLift.get_exerciseName() + "\"";
@@ -147,6 +156,7 @@ public class DataSourceMax {
         }
     }
 
+    //Makes sure that the id from a Max is actually in the MAXES table
     public boolean validMaxID(long max_id)
     {
         String where = DatabaseHelper.COLUMN_MAX_ID + "=" + max_id + ";";
