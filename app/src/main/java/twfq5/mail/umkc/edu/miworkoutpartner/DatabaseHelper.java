@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static DatabaseHelper sInstance = null;
 
     public static final String DATABASE_NAME = "miworkoutpartner.db";
-    public static final int DATABASE_VERSION = 17;
+    public static final int DATABASE_VERSION = 20;
 
     //*********Workout Table Information***********
     public static final String TABLE_WORKOUTS = "workouts";
